@@ -1,8 +1,8 @@
 .handle{
   width: 20px;
   height: 20px;
-
-  position: relative;
+  margin-left: -10px;
+  position: absolute;
   margin-top: -10px;
   float: left;
 }
