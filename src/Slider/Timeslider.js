@@ -8,16 +8,31 @@ class Timeslider extends Component {
     return (to.getTime() - from.getTime()) / ONE_DAY;
   }
 
+  onChange(index, onChange, value) {
+    // @TODO check if they are collided
+    // @TODO change value to new Date(value)
+    onChange(value);
+  }
+
+
   render() {
-    var min  = 0;
-    var max  = this.getDayDiff(this.props.min, this.props.max);
-    var from = this.getDayDiff(this.props.min, this.props.from);
-    var to   = this.getDayDiff(this.props.min, this.props.to);
+    var to   = this.getDayDiff(this.props.from, this.props.to);
+
+    var handles = [{
+        value: 0,
+        onChange: this.onChange.bind(this, 0, this.props.toChange),
+      }, {
+        value: to,
+        onChange: this.onChange.bind(this, 1, this.props.fromChange),
+    }];
 
     return (
       <Slider>
-        <Handle min={min} max={max} from={min} to={to} current={from} onChange={this.props.fromChange}/>
-        <Handle min={min} max={max} from={from} to={max} current={to}  onChange={this.props.toChange}/>
+        {handles.map((handle) =>
+          <Handle from={handles[0].value} to={handles[handles.length - 1].value} value={handle.value} onChange={handle.onChange}/>
+        )}
+        {/*<Handle min={min} max={max} from={min} to={to} current={from} onChange={this.props.fromChange}/>
+        <Handle min={min} max={max} from={from} to={max} current={to}  onChange={this.props.toChange}/>*/}
       </Slider>
     );
   }
